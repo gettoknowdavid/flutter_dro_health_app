@@ -16,61 +16,64 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: CustomBackButton(color: Colors.white),
-      ),
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _ProductImage(product: product),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(product.name, style: textTheme.headline4),
-                      Text(
-                        '${product.constituents} - ${product.weight}mg',
-                        style: textTheme.headline5,
-                      ),
-                      SizedBox(height: 20),
-                      _ProducerDetails(product: product),
-                      SizedBox(height: 30),
-                      Row(
-                        children: [
-                          QuantityButton(product: product),
-                          Spacer(),
-                          _PriceWidget(product: product),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      OtherDetailsWidget(product: product),
-                    ],
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: CustomBackButton(color: Colors.white),
+        ),
+        body: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _ProductImage(product: product),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(product.name, style: textTheme.headline4),
+                        Text(
+                          '${product.constituents} - ${product.weight}mg',
+                          style: textTheme.headline5,
+                        ),
+                        SizedBox(height: 20),
+                        _ProducerDetails(product: product),
+                        SizedBox(height: 30),
+                        Row(
+                          children: [
+                            QuantityButton(product: product),
+                            Spacer(),
+                            _PriceWidget(product: product),
+                          ],
+                        ),
+                        SizedBox(height: 30),
+                        OtherDetailsWidget(product: product),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30.0),
-              child: _AddToBagButton(onPressed: () {
-                context.read<CartBloc>().add(AddToCartEvent(product));
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return SuccessDialog(product: product);
-                  },
-                );
-              }),
+              ],
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30.0),
+                child: _AddToBagButton(onPressed: () {
+                  context.read<CartBloc>().add(AddToCartEvent(product));
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return SuccessDialog(product: product);
+                    },
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,11 +1,11 @@
-import '../../../../core/constants/product_list.dart';
-import '../data_sources/pharmacy_local_data_source.dart';
+import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
-import '../../domain/entities/product.dart';
+import '../../../../core/constants/product_list.dart';
 import '../../../../core/error/failures.dart';
-import 'package:dartz/dartz.dart';
+import '../../domain/entities/product.dart';
 import '../../domain/repositories/pharmacy_repository.dart';
+import '../data_sources/pharmacy_local_data_source.dart';
 
 class PharmacyRepositoryImplementation implements PharmacyRepository {
   PharmacyRepositoryImplementation({@required this.localDataSource});

@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import '../../../cart/presentation/pages/cart_screen.dart';
 import '../../domain/entities/product.dart';
+import 'fade_page_route.dart';
 
 class SuccessDialog extends StatelessWidget {
   const SuccessDialog({
@@ -41,7 +42,15 @@ class SuccessDialog extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10),
                   color: theme.accentColor,
                   textColor: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      FadePageRoute(
+                        child: CartScreen(),
+                      ),
+                    );
+                  },
                   child: Text('View Bag'),
                 ),
                 SizedBox(height: 20),

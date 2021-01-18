@@ -1,6 +1,7 @@
-import '../models/product_model.dart';
 import 'package:meta/meta.dart';
 import 'package:sembast/sembast.dart';
+
+import '../models/product_model.dart';
 
 abstract class PharmacyLocalDataSource {
   Future<List<ProductModel>> getProducts();

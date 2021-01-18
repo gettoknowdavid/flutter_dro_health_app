@@ -1,8 +1,8 @@
-import '../../../pharmacy/data/models/product_model.dart';
-
-import '../../domain/entities/cart_product.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+
+import '../../../pharmacy/data/models/product_model.dart';
+import '../../domain/entities/cart_product.dart';
 
 part 'cart_product_model.g.dart';
 

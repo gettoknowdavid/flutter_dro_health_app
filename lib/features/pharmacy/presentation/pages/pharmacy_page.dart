@@ -17,63 +17,65 @@ class PharmacyPage extends StatefulWidget {
 class _PharmacyPageState extends State<PharmacyPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('DRO Health'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            iconSize: 26,
-            onPressed: () async {
-              Product selectedProduct = await showSearch<Product>(
-                context: context,
-                delegate: ProductSearch(
-                  BlocProvider.of<SearchBloc>(context),
-                ),
-              );
-              selectedProduct == null
-                  ? Navigator.pushReplacement(
-                      context,
-                      FadePageRoute(child: PharmacyPage()),
-                    )
-                  : Navigator.push(
-                      context,
-                      FadePageRoute(
-                        child: DetailsPage(product: selectedProduct),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('DRO Health'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.search),
+              iconSize: 26,
+              onPressed: () async {
+                Product selectedProduct = await showSearch<Product>(
+                  context: context,
+                  delegate: ProductSearch(
+                    BlocProvider.of<SearchBloc>(context),
+                  ),
+                );
+                selectedProduct == null
+                    ? Navigator.pushReplacement(
+                        context,
+                        FadePageRoute(child: PharmacyPage()),
+                      )
+                    : Navigator.push(
+                        context,
+                        FadePageRoute(
+                          child: DetailsPage(product: selectedProduct),
+                        ),
+                      );
+              },
+            ),
+          ],
+        ),
+        body: Stack(
+          children: [
+            BlocBuilder<PharmacyBloc, PharmacyState>(
+              cubit: context.watch<PharmacyBloc>(),
+              builder: (context, state) {
+                if (state is PharmacyLoaded) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ProductGrid(products: state.products),
                       ),
-                    );
-            },
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          BlocBuilder<PharmacyBloc, PharmacyState>(
-            cubit: context.watch<PharmacyBloc>(),
-            builder: (context, state) {
-              if (state is PharmacyLoaded) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ProductGrid(products: state.products),
-                    ),
-                  ],
-                );
-              } else if (state is PharmacyEmpty) {
-                return Center(
-                  child: Text('EMPTY'),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
-          CustomBottomSheet(),
-        ],
+                    ],
+                  );
+                } else if (state is PharmacyEmpty) {
+                  return Center(
+                    child: Text('EMPTY'),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+            CustomBottomSheet(),
+          ],
+        ),
       ),
     );
   }
 }
-

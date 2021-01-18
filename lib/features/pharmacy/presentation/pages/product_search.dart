@@ -26,32 +26,35 @@ class ProductSearch extends SearchDelegate<Product> {
   Widget buildResults(BuildContext context) {
     searchBloc.add(SearchEvent(query: query));
 
-    return BlocBuilder<SearchBloc, SearchState>(
-      cubit: searchBloc,
-      builder: (context, state) {
-        if (state.isLoading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state.hasError) {
-          return Center(
-            child: Text('Error'),
-          );
-        }
-        return ListView.builder(
-          itemCount: state.products.length,
-          itemBuilder: (context, i) {
-            return ListTile(
-              leading: Icon(Icons.mediation_sharp),
-              title: Text(state.products[i].name),
-              onTap: () {
-                close(context, state.products[i]);
-              },
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: BlocBuilder<SearchBloc, SearchState>(
+        cubit: searchBloc,
+        builder: (context, state) {
+          if (state.isLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        );
-      },
+          }
+          if (state.hasError) {
+            return Center(
+              child: Text('Error'),
+            );
+          }
+          return ListView.builder(
+            itemCount: state.products.length,
+            itemBuilder: (context, i) {
+              return ListTile(
+                leading: Icon(Icons.mediation_sharp),
+                title: Text(state.products[i].name),
+                onTap: () {
+                  close(context, state.products[i]);
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
